@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountManagementService implements ServiceInterface {
 
-    List<Account> accounts=new ArrayList<>();
-    int newid=0;
+    List<Account> accounts = new ArrayList<>();
+    int newid = 0;
 
     @Override
     public List listall() {
@@ -21,20 +22,29 @@ public class AccountManagementService implements ServiceInterface {
 
     @Override
     public void delete(int id) {
-        for(int i=0; i<accounts.size();i++) {
-            if(accounts.get(i).getId()==id) {
-                accounts.remove(i);
-            }
-        }
+        accounts = accounts.stream()
+                .filter(e -> e.getId() != id)
+                .collect(Collectors.toList());
     }
 
     public Account getspecificaccount(int id) {
-        return accounts.get(id);
+        return accounts.stream()
+                .filter(e -> e.getId() == id)
+                .findAny()
+                .get();
     }
 
     public void newaccount(InputedAccount inputedAccount) {
         newid++;
-        Account account=new Account(newid,inputedAccount.getName(), inputedAccount.getBalance(),inputedAccount.getIban());
+        Account account = new Account(newid, inputedAccount.getName(), inputedAccount.getBalance(), inputedAccount.getIban());
         accounts.add(account);
+    }
+
+    public Account updateAccount(InputedAccount inputedAccount) {
+        Account account = new Account(inputedAccount.getId(), inputedAccount.getName(), inputedAccount.getBalance(), inputedAccount.getIban());
+        accounts = accounts.stream()
+                .map(e -> e.getId() == inputedAccount.getId() ? account : e)
+                .collect(Collectors.toList());
+        return account;
     }
 }

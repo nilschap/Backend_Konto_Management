@@ -22,7 +22,7 @@ public class AccountMgController {
     @Autowired
     AccountManagementService accountManagementService;
 
-    @RequestMapping(value = "/accounts", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/accounts", method = RequestMethod.POST)
     public ResponseEntity newaccount(@RequestBody InputedAccount inputedAccount) {
         try {
             accountManagementService.newaccount(inputedAccount);
@@ -32,7 +32,16 @@ public class AccountMgController {
         }
     }
 
-    @RequestMapping(value = "/accounts", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/accounts", method = RequestMethod.PUT)
+    public Account updateAccount(@RequestBody InputedAccount inputedAccount) {
+        try {
+            return accountManagementService.updateAccount(inputedAccount);
+        } catch(Exception e) {
+            throw new NullPointerException();
+        }
+    }
+
+    @RequestMapping(value = "/api/accounts", method = RequestMethod.GET)
     public List<Account> listaccounts() {
         try {
             return accountManagementService.listall();
@@ -41,7 +50,7 @@ public class AccountMgController {
         }
     }
 
-    @RequestMapping(value="/accounts/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value="/api/accounts/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteaccount(@PathVariable("id") int id) {
         try {
             accountManagementService.delete(id);
@@ -51,13 +60,12 @@ public class AccountMgController {
         }
     }
 
-    @RequestMapping(value = "/accounts/{id}", method = RequestMethod.GET)
-    public ResponseEntity getspecificaccount(@PathVariable("id") int id) {
+    @RequestMapping(value = "/api/accounts/{id}", method = RequestMethod.GET)
+    public Account getspecificaccount(@PathVariable("id") int id) {
         try {
-            accountManagementService.getspecificaccount(id);
-            return new ResponseEntity(HttpStatus.ACCEPTED);
+            return accountManagementService.getspecificaccount(id);
         }catch (Exception e) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            throw new NullPointerException();
         }
     }
 

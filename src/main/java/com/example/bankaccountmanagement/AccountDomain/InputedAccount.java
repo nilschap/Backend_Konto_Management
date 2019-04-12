@@ -2,6 +2,7 @@ package com.example.bankaccountmanagement.AccountDomain;
 
 public class InputedAccount {
 
+    int id;
     String name;
     double balance;
     String iban;
@@ -12,6 +13,21 @@ public class InputedAccount {
         this.name = name;
         this.balance = balance;
         this.iban = iban;
+    }
+
+    public InputedAccount(int id, String name, double balance, String iban) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+        this.iban = iban;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

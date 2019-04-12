@@ -20,7 +20,7 @@ public class UserMgController {
     @Autowired
     UserManagamentService userManagamentService;
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/auth/login",method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody InputedUser inputedUser) {
 
         if(userManagamentService.login(inputedUser)) {
@@ -32,7 +32,7 @@ public class UserMgController {
     }
 
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/auth/register", method = RequestMethod.POST)
     public ResponseEntity register(@RequestBody InputedUser inputedUser) {
         try {
             userManagamentService.register(inputedUser);
