@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 @Service
 public class AccountManagementService implements ServiceInterface {
 
-    List<Account> accounts = new ArrayList<>();
-    int newid = 0;
+    private List<Account> accounts = new ArrayList<>();
+    private int newid = 0;
 
     @Override
     public List listall() {

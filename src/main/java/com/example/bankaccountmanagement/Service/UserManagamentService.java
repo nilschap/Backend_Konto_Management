@@ -7,42 +7,34 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserManagamentService implements ServiceInterface {
 
-    List<User> users=new ArrayList<>();
-    int newid;
+    private List<User> users = new ArrayList<>();
+    private int newid;
 
     @Override
     public List listall() {
-       return users;
+        return users;
     }
 
     @Override
     public void delete(int id) {
-        for(int i=0; i<users.size();i++) {
-            if(users.get(i).getId()==id) {
-                users.remove(i);
-            }
-        }
+        users = users.stream()
+                .filter(e -> e.getId() != id)
+                .collect(Collectors.toList());
     }
 
     public void register(InputedUser inputedUser) {
         newid++;
-        User account=new User(newid,inputedUser.getUsername(), inputedUser.getPassword());
+        User account = new User(newid, inputedUser.getUsername(), inputedUser.getPassword());
         users.add(account);
     }
 
     public boolean login(InputedUser user) {
-
-        for (int i = 0; i < users.size(); i++) {
-            String username = users.get(i).getUsername();
-            String password = users.get(i).getPassword();
-            if (username == user.getUsername() && password == user.getPassword()) {
-                return true;
-            }
-        }
-        return false;
+        return users.stream()
+                .anyMatch(e -> e.getUsername().equals(user.getUsername()) && e.getPassword().equals(user.getPassword()));
     }
 }
